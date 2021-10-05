@@ -5,3 +5,10 @@ have watched and their own ratings for each movie, which can be beneficial if th
 others, or even to keep a personal tracking of what they have seen. This project interests me because I watch a lot of 
 movies, but I do not personally track what I have watched. As a result, this project will help me be able to keep note 
 of what movies I like or disliked, as well as how a certain movie I have watched ranks with other movies.
+
+## User Stories
+- As a user, I want to be able to add a movie to the ranking list
+- As a user, I want to be able to see the current rankings of movies
+- As a user, I want to be able to remove a movie from the ranking list
+- As a user, I want to be able to rate a movie out of 5 stars
+- As a user, I want to be able to move a movie up or down a ranking
