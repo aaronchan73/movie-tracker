@@ -21,65 +21,14 @@ public class TrackerApp {
 
             menuScreen();
             String scannerInput = scanner.next();
-            //scannerInput.toLowerCase();
 
-            switch (scannerInput) {
-
-                case "r":
-                    checkRankings();
-                    break;
-
-                case "m":
-                    newMovie();
-                    break;
-
-                case "d":
-                    deleteMovie();
-                    break;
-
-                case "u":
-                    moveMovieUpOrDown();
-                    break;
-
-                case "e":
-                    keepGoing = false;
-                    System.out.println("Thank you for using the Movie Tracker.");
-                    break;
-
-                default:
-                    System.out.println("Invalid entry, please try again.");
-
-            }
-            /*
-            if (scannerInput.equals("r")) {
-
-                checkRankings();
-
-            } else if (scannerInput.equals("m")) {
-
-                newMovie();
-
-            } else if (scannerInput.equals("d")) {
-
-                deleteMovie();
-
-            } else if (scannerInput.equals("u")) {
-
-                moveMovieUpOrDown();
-
-            } else if (scannerInput.equals("e")) {
-
+            if (scannerInput.equals("e")) {
                 keepGoing = false;
                 System.out.println("Thank you for using the Movie Tracker.");
-
             } else {
-
-                System.out.println("Invalid entry, please try again.");
-
-            }*/
-
+                userInput(scannerInput);
+            }
         }
-
     }
 
     // MODIFIES: this
@@ -90,6 +39,27 @@ public class TrackerApp {
         movieList = new Tracker();
         scanner.useDelimiter("\n");
 
+    }
+
+    // MODIFIES: this
+    // EFFECTS: processes user input to the tracker
+    private void userInput(String scannerInput) {
+        switch (scannerInput) {
+            case "r":
+                checkRankings();
+                break;
+            case "m":
+                newMovie();
+                break;
+            case "d":
+                deleteMovie();
+                break;
+            case "u":
+                moveMovieUpOrDown();
+                break;
+            default:
+                System.out.println("Invalid entry, please try again.");
+        }
     }
 
     // EFFECTS: displays menu screen
