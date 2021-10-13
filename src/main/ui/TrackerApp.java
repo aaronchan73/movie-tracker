@@ -84,9 +84,12 @@ public class TrackerApp {
         System.out.println("Enter the movie's rating (out of 5 stars): ");
         int movieRating = scanner.nextInt();
 
-        Movie newMovie = new Movie(movieName, movieRating);
-
-        movieList.addMovie(newMovie);
+        if (movieRating < 0 || movieRating > 5) {
+            System.out.println("Inputted rating is not out of 5 stars.");
+        } else {
+            Movie newMovie = new Movie(movieName, movieRating);
+            movieList.addMovie(newMovie);
+        }
 
     }
 
