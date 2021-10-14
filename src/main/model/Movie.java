@@ -18,13 +18,4 @@ public class Movie {
         return rating;
     }
 
-
-    public void setName(String newName) {
-        name = newName;
-    }
-
-    public void setRating(int newRating) {
-        rating = newRating;
-    }
-
 }

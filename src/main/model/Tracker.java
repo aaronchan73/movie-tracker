@@ -27,19 +27,6 @@ public class Tracker {
         return movieList.get(rank - 1);
     }
 
-//    // EFFECTS: returns the ranking of a given movie, -1 if the movie
-//    //          is not found
-//    public int findRankingOfMovie(Movie m) {
-//        int rank = 0;
-//        for (Movie next : movieList) {
-//            rank++;
-//            if (m == next) {
-//                return rank;
-//            }
-//        }
-//        return -1;
-//    }
-
     // REQUIRES: there is more than one movie in the tracker
     // MODIFIES: this
     // EFFECTS: leaves the movie in the same ranking if at the top of the tracker,

@@ -48,17 +48,6 @@ public class TrackerTest {
         assertEquals(movie3, movieList.getMovieAtRanking(3));
     }
 
-//    @Test
-//    public void testFindRankingOfMovieNoMovie() {
-//        Movie movie4 = new Movie("Pitch Perfect", 2);
-//        assertEquals(-1, movieList.findRankingOfMovie(movie4));
-//    }
-//
-//    @Test
-//    public void testFindRankingOfMovieYesMovie() {
-//        assertEquals(2, movieList.findRankingOfMovie(movie2));
-//    }
-
     @Test
     void testMoveMovieUpRankingTopRanking() {
         movieList.moveMovieUpRanking(movie1);
