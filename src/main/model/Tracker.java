@@ -6,6 +6,7 @@ public class Tracker {
 
     private final ArrayList<Movie> movieList;
 
+    // EFFECTS: instantiates the movieList
     public Tracker() {
         movieList = new ArrayList<>();
     }
