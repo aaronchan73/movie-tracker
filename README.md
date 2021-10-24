@@ -12,3 +12,5 @@ of what movies I like or disliked, as well as how a certain movie I have watched
 - As a user, I want to be able to remove a movie from the ranking list
 - As a user, I want to be able to rate a movie out of 5 stars
 - As a user, I want to be able to move a movie up or down a ranking
+- As a user, I want to be given the option to save my ranking list to file
+- As a user, I want to be given the option to load my ranking list from file when I open my application

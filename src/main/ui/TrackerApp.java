@@ -2,14 +2,21 @@ package ui;
 
 import model.Movie;
 import model.Tracker;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+// Movie tracker application
 public class TrackerApp {
-
+    private static final String JSON_FILE = "./data/tracker.json";
     private Scanner scanner;
     private Tracker movieList;
+    private JsonReader reader;
+    private JsonWriter writer;
 
     // EFFECTS: runs the tracker application
     public TrackerApp() {
@@ -39,6 +46,9 @@ public class TrackerApp {
         movieList = new Tracker();
         scanner.useDelimiter("\n");
 
+        reader = new JsonReader(JSON_FILE);
+        writer = new JsonWriter(JSON_FILE);
+
     }
 
     // MODIFIES: this
@@ -57,6 +67,12 @@ public class TrackerApp {
             case "u":
                 moveMovieUpOrDown();
                 break;
+            case "l":
+                loadRankings();
+                break;
+            case "s":
+                saveRankings();
+                break;
             default:
                 System.out.println("Invalid entry, please try again.");
         }
@@ -70,6 +86,8 @@ public class TrackerApp {
         System.out.println("\tEnter a New Movie: Press m");
         System.out.println("\tRemove a Movie: Press d");
         System.out.println("\tMove a Movie Up or Down a Ranking: Press u");
+        System.out.println("\tLoad a Ranking from File: Press l");
+        System.out.println("\tSave the Ranking to File: Press s");
         System.out.println("\tExit this Application: Press e");
 
     }
@@ -136,6 +154,30 @@ public class TrackerApp {
         Movie removedMovie = movieList.getMovieAtRanking(movieRank);
 
         movieList.removeMovie(removedMovie);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads tracker from file
+    private void loadRankings() {
+        try {
+            movieList = reader.read();
+            System.out.println(JSON_FILE + " was loaded successfully.");
+
+        } catch (IOException io) {
+            System.out.println(JSON_FILE + " cannot be loaded.");
+        }
+    }
+
+    // EFFECTS: saves tracker to file
+    private void saveRankings() {
+        try {
+            writer.open();
+            writer.write(movieList);
+            writer.close();
+            System.out.println(JSON_FILE + " was saved successfully.");
+        } catch (FileNotFoundException e) {
+            System.out.println(JSON_FILE + " cannot be saved.");
+        }
     }
 
 }

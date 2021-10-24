@@ -1,5 +1,6 @@
 package model;
 
+// Represents a movie with a name and rating
 public class Movie {
 
     private String name;

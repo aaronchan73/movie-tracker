@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
+// Represents a movie tracker as a list of movies
 public class Tracker {
 
     private final ArrayList<Movie> movieList;
@@ -81,6 +82,10 @@ public class Tracker {
 
         return movieRanking;
 
+    }
+
+    public ArrayList<Movie> getMovieList() {
+        return movieList;
     }
 
 }

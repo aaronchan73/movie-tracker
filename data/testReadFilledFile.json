@@ -1,0 +1,16 @@
+{
+  "movieList": [
+    {
+      "name": "Titanic",
+      "rating": 3
+    },
+    {
+      "name": "Shrek",
+      "rating": 5
+    },
+    {
+      "name": "Hachi",
+      "rating": 4
+    }
+  ]
+}
