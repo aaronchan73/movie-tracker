@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 // Represents writer that writes and saves edits to tracker as JSON data to file
+// Code referenced from https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo.git
 public class JsonWriter {
 
     private String destination;
