@@ -1,5 +1,6 @@
 package ui;
 
+import model.Movie;
 import model.Tracker;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -16,6 +17,7 @@ public class MainFrame extends JFrame implements ActionListener {
     public static final int WIDTH = 700;
     public static final int HEIGHT = 700;
     private static final String JSON_FILE = "./data/tracker.json";
+    private static final Integer[] RATINGS = {1, 2, 3, 4, 5};
     private Tracker movieList;
     private JsonReader reader;
     private JsonWriter writer;
@@ -26,28 +28,28 @@ public class MainFrame extends JFrame implements ActionListener {
     JMenuItem loadItem;
     JMenuItem saveItem;
     JMenuItem exitItem;
-    JList displayList;
+    JTextField newMovieTextField;
+    JButton submitButton;
+    JComboBox<Integer> ratingBox;
+    JLabel appTitle;
 
     public MainFrame() {
 
         init();
 
+        ImageIcon logo = new ImageIcon("./data/logo.png");
+        this.setIconImage(logo.getImage());
+
         this.setTitle("Movie Tracker");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setLayout(new FlowLayout());
         this.setSize(WIDTH, HEIGHT);
-//        this.add(new TrackerPanel());
-//        this.add(new ButtonPanel());
 
-//        JLabel listTitle = new JLabel();
-//        listTitle.setText("Movie Tracker");
-//        listTitle.setHorizontalTextPosition(JLabel.CENTER);
-//        listTitle.setForeground(new Color(0, 0, 0));
-
-//        this.add(listTitle);
-        displayList = new JList();
+        appTitle = new JLabel("Movie Tracker");
+        this.add(appTitle);
 
         initMenu();
+        initNewMovie();
 
         this.setVisible(true);
 
@@ -56,6 +58,7 @@ public class MainFrame extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: initializes scanner and movieList
     private void init() {
+
         movieList = new Tracker();
         reader = new JsonReader(JSON_FILE);
         writer = new JsonWriter(JSON_FILE);
@@ -83,6 +86,22 @@ public class MainFrame extends JFrame implements ActionListener {
         loadItem.addActionListener(this);
         saveItem.addActionListener(this);
         exitItem.addActionListener(this);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes the text field, rating box, and submit button used for new movies
+    private void initNewMovie() {
+        submitButton = new JButton("Submit");
+        newMovieTextField = new JTextField();
+        newMovieTextField.setPreferredSize(new Dimension(200, 50));
+        newMovieTextField.setText("Movie Title");
+        submitButton.addActionListener(this);
+
+        ratingBox = new JComboBox(RATINGS);
+
+        this.add(ratingBox);
+        this.add(newMovieTextField);
+        this.add(submitButton);
     }
 
     // MODIFIES: this
@@ -119,6 +138,15 @@ public class MainFrame extends JFrame implements ActionListener {
             saveRankings();
         } else if (e.getSource() == exitItem) {
             System.exit(0);
+        } else if (e.getSource() == submitButton) {
+            String movieTitle = newMovieTextField.getText();
+            newMovieTextField.setText("");
+
+            int movieRating = ratingBox.getSelectedIndex() + 1;
+
+            Movie movie = new Movie(movieTitle, movieRating);
+            movieList.addMovie(movie);
+
         }
     }
 
