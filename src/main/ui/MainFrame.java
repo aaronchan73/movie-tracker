@@ -11,16 +11,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class MainFrame extends JFrame implements ActionListener {
 
-    public static final int WIDTH = 700;
-    public static final int HEIGHT = 700;
+    public static final int WIDTH = 500;
+    public static final int HEIGHT = 500;
     private static final String JSON_FILE = "./data/tracker.json";
     private static final Integer[] RATINGS = {1, 2, 3, 4, 5};
     private Tracker movieList;
     private JsonReader reader;
     private JsonWriter writer;
+
     JMenuBar menuBar;
     JMenu loadMenu;
     JMenu saveMenu;
@@ -28,28 +30,47 @@ public class MainFrame extends JFrame implements ActionListener {
     JMenuItem loadItem;
     JMenuItem saveItem;
     JMenuItem exitItem;
+
     JTextField newMovieTextField;
     JButton submitButton;
     JComboBox<Integer> ratingBox;
-    JLabel appTitle;
+
+    JButton deleteButton;
+    JLabel deleteLabel;
+    JPanel deleteMoviePanel;
+
+    JPanel newMoviePanel;
+
+    JPanel buttonPanel;
+
+    JList<String> movieJList;
+    DefaultListModel<String> movieJListModel;
 
     public MainFrame() {
 
         init();
 
-        ImageIcon logo = new ImageIcon("./data/logo.png");
-        this.setIconImage(logo.getImage());
-
+        GridLayout layout = new GridLayout();
+        layout.setRows(2);
+        layout.setColumns(1);
         this.setTitle("Movie Tracker");
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setLayout(new FlowLayout());
+        this.setLayout(layout);
         this.setSize(WIDTH, HEIGHT);
-
-        appTitle = new JLabel("Movie Tracker");
-        this.add(appTitle);
 
         initMenu();
         initNewMovie();
+        initDeleteMovie();
+
+        movieJListModel = new DefaultListModel();
+        movieJList = new JList(movieJListModel);
+
+        buttonPanel = new JPanel();
+        buttonPanel.add(newMoviePanel);
+        buttonPanel.add(deleteMoviePanel);
+
+        this.add(movieJList);
+        this.add(buttonPanel);
 
         this.setVisible(true);
 
@@ -58,10 +79,11 @@ public class MainFrame extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: initializes scanner and movieList
     private void init() {
-
         movieList = new Tracker();
         reader = new JsonReader(JSON_FILE);
         writer = new JsonWriter(JSON_FILE);
+        ImageIcon logo = new ImageIcon("./data/logo.png");
+        this.setIconImage(logo.getImage());
     }
 
     // MODIFIES: this
@@ -99,9 +121,23 @@ public class MainFrame extends JFrame implements ActionListener {
 
         ratingBox = new JComboBox(RATINGS);
 
-        this.add(ratingBox);
-        this.add(newMovieTextField);
-        this.add(submitButton);
+        newMoviePanel = new JPanel();
+        newMoviePanel.add(newMovieTextField);
+        newMoviePanel.add(ratingBox);
+        newMoviePanel.add(submitButton);
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes delete movie label and button
+    private void initDeleteMovie() {
+        deleteMoviePanel = new JPanel();
+        deleteButton = new JButton("Delete");
+        deleteLabel = new JLabel("Delete Movie");
+        deleteMoviePanel.add(deleteLabel);
+        deleteMoviePanel.add(deleteButton);
+
+        deleteButton.addActionListener(this);
     }
 
     // MODIFIES: this
@@ -110,6 +146,11 @@ public class MainFrame extends JFrame implements ActionListener {
         try {
             movieList = reader.read();
             System.out.println(JSON_FILE + " was loaded successfully.");
+            ArrayList<String> movieStrings = movieList.displayMovies();
+
+            for (String next : movieStrings) {
+                movieJListModel.addElement(next);
+            }
 
         } catch (IOException io) {
             System.out.println(JSON_FILE + " cannot be loaded.");
@@ -147,8 +188,19 @@ public class MainFrame extends JFrame implements ActionListener {
             Movie movie = new Movie(movieTitle, movieRating);
             movieList.addMovie(movie);
 
+            movieJListModel.addElement(toMovieString(movie));
+        } else if (e.getSource() == deleteButton) {
+            movieJListModel.removeElement(movieJList.getSelectedValue());
         }
     }
 
+    // EFFECTS: returns a string displaying the name and rating of a movie
+    private String toMovieString(Movie m) {
+        String name = m.getName();
+        String rating = Integer.toString(m.getRating());
+        int ranking = movieList.length();
+
+        return ranking + ". " + name + " - " + rating;
+    }
 
 }
