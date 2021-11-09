@@ -88,4 +88,29 @@ public class Tracker {
         return movieList;
     }
 
+    // EFFECTS: gets position of inputted movie in movie list
+    public int getPosition(Movie movie) {
+        int i = 1;
+        for (Movie next : movieList) {
+            if (movie == next) {
+                return i;
+            } else {
+                i++;
+            }
+        }
+        return i;
+    }
+
+    // EFFECTS: retrieves movie in movie list with given name
+    public Movie findMovie(String name) {
+        for (Movie next : movieList) {
+            if (next.getName().equals(name)) {
+                return next;
+            }
+        }
+
+        return null;
+
+    }
+
 }

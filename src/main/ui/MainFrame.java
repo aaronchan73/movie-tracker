@@ -16,7 +16,7 @@ import java.util.ArrayList;
 public class MainFrame extends JFrame implements ActionListener {
 
     public static final int WIDTH = 500;
-    public static final int HEIGHT = 500;
+    public static final int HEIGHT = 400;
     private static final String JSON_FILE = "./data/tracker.json";
     private static final Integer[] RATINGS = {1, 2, 3, 4, 5};
     private Tracker movieList;
@@ -31,8 +31,9 @@ public class MainFrame extends JFrame implements ActionListener {
     JMenuItem saveItem;
     JMenuItem exitItem;
 
+    JLabel addLabel;
     JTextField newMovieTextField;
-    JButton submitButton;
+    JButton addButton;
     JComboBox<Integer> ratingBox;
 
     JButton deleteButton;
@@ -113,18 +114,20 @@ public class MainFrame extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: initializes the text field, rating box, and submit button used for new movies
     private void initNewMovie() {
-        submitButton = new JButton("Submit");
+        addLabel = new JLabel("Add Movie");
+        addButton = new JButton("Submit");
         newMovieTextField = new JTextField();
         newMovieTextField.setPreferredSize(new Dimension(200, 50));
         newMovieTextField.setText("Movie Title");
-        submitButton.addActionListener(this);
+        addButton.addActionListener(this);
 
         ratingBox = new JComboBox(RATINGS);
 
         newMoviePanel = new JPanel();
+        newMoviePanel.add(addLabel);
         newMoviePanel.add(newMovieTextField);
         newMoviePanel.add(ratingBox);
-        newMoviePanel.add(submitButton);
+        newMoviePanel.add(addButton);
 
     }
 
@@ -146,14 +149,19 @@ public class MainFrame extends JFrame implements ActionListener {
         try {
             movieList = reader.read();
             System.out.println(JSON_FILE + " was loaded successfully.");
-            ArrayList<String> movieStrings = movieList.displayMovies();
-
-            for (String next : movieStrings) {
-                movieJListModel.addElement(next);
-            }
-
+            displayJList();
         } catch (IOException io) {
             System.out.println(JSON_FILE + " cannot be loaded.");
+        }
+    }
+
+    // EFFECTS: adds every element in movie list to movie JList
+    private void displayJList() {
+        ArrayList<String> movieStrings = movieList.displayMovies();
+        movieJListModel.clear();
+
+        for (String next : movieStrings) {
+            movieJListModel.addElement(next);
         }
     }
 
@@ -179,7 +187,7 @@ public class MainFrame extends JFrame implements ActionListener {
             saveRankings();
         } else if (e.getSource() == exitItem) {
             System.exit(0);
-        } else if (e.getSource() == submitButton) {
+        } else if (e.getSource() == addButton) {
             String movieTitle = newMovieTextField.getText();
             newMovieTextField.setText("");
 
@@ -187,20 +195,21 @@ public class MainFrame extends JFrame implements ActionListener {
 
             Movie movie = new Movie(movieTitle, movieRating);
             movieList.addMovie(movie);
+            displayJList();
 
-            movieJListModel.addElement(toMovieString(movie));
         } else if (e.getSource() == deleteButton) {
-            movieJListModel.removeElement(movieJList.getSelectedValue());
+            String selectedValue = movieJList.getSelectedValue();
+            String movieName = getMovieName(selectedValue);
+            Movie deletedMovie = movieList.findMovie(movieName);
+            movieList.removeMovie(deletedMovie);
+            displayJList();
         }
     }
 
-    // EFFECTS: returns a string displaying the name and rating of a movie
-    private String toMovieString(Movie m) {
-        String name = m.getName();
-        String rating = Integer.toString(m.getRating());
-        int ranking = movieList.length();
-
-        return ranking + ". " + name + " - " + rating;
+    // EFFECTS: substrings text to get movie's name
+    public String getMovieName(String text) {
+        int endIndex = text.indexOf("-");
+        return text.substring(3, endIndex - 1);
     }
 
 }

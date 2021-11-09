@@ -104,5 +104,24 @@ public class TrackerTest {
         assertEquals("3. Pacific Rim - 4 stars", movieNames.get(2));
 
     }
+    
+    @Test
+    void testGetPosition() {
+        assertEquals(1, movieList.getPosition(movie1));
+        assertEquals(2, movieList.getPosition(movie2));
+        assertEquals(3, movieList.getPosition(movie3));
+
+        Movie movie4 = new Movie("Scream", 4);
+        movieList.addMovie(movie4);
+        assertEquals(4, movieList.getPosition(movie4));
+    }
+
+    @Test
+    void testFindMovie() {
+        assertEquals(movie1, movieList.findMovie("Titanic"));
+        assertEquals(movie2, movieList.findMovie("Naruto"));
+        assertEquals(movie3, movieList.findMovie("Pacific Rim"));
+        assertEquals(null, movieList.findMovie("Shrek"));
+    }
 
 }
