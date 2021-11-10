@@ -57,7 +57,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
     public MainFrame() {
 
-        //splashInit();
+        splashInit();
 
         init();
 
@@ -110,14 +110,13 @@ public class MainFrame extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: initializes splash window
     private void splashInit() {
-        splashIcon = new ImageIcon();
-        // TODO: create art for splash screen
+        splashIcon = new ImageIcon("./data/splash.png");
         splashWindow = new JWindow();
         splashWindow.getContentPane().add(new JLabel(splashIcon));
-        splashWindow.setBounds(0, 0, 500, 500);
+        splashWindow.setBounds(0, 0, 500, 400);
         splashWindow.setVisible(true);
         try {
-            Thread.sleep(5000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
