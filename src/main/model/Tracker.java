@@ -76,7 +76,12 @@ public class Tracker {
             String ratingString = Integer.toString(next.getRating());
             String nameString = next.getName();
             String rankingString = Integer.toString(i);
-            String movieString = rankingString + ". " + nameString + " - " + ratingString + " stars";
+            String movieString;
+            if (next.getRating() == 1) {
+                movieString = rankingString + ". " + nameString + " - " + ratingString + " star";
+            } else {
+                movieString = rankingString + ". " + nameString + " - " + ratingString + " stars";
+            }
             movieRanking.add(movieString);
         }
 
@@ -88,7 +93,7 @@ public class Tracker {
         return movieList;
     }
 
-    // EFFECTS: gets position of inputted movie in movie list
+    // EFFECTS: gets position of inputted movie in movieList
     public int getPosition(Movie movie) {
         int i = 1;
         for (Movie next : movieList) {
@@ -101,7 +106,7 @@ public class Tracker {
         return i;
     }
 
-    // EFFECTS: retrieves movie in movie list with given name
+    // EFFECTS: retrieves movie in movieList with given name
     public Movie findMovie(String name) {
         for (Movie next : movieList) {
             if (next.getName().equals(name)) {

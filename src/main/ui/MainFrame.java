@@ -35,19 +35,29 @@ public class MainFrame extends JFrame implements ActionListener {
     JTextField newMovieTextField;
     JButton addButton;
     JComboBox<Integer> ratingBox;
+    JPanel newMoviePanel;
 
     JButton deleteButton;
     JLabel deleteLabel;
     JPanel deleteMoviePanel;
 
-    JPanel newMoviePanel;
+    JLabel upLabel;
+    JButton moveUpButton;
+    JLabel downLabel;
+    JButton moveDownButton;
+    JPanel moveUpDownPanel;
 
     JPanel buttonPanel;
 
     JList<String> movieJList;
     DefaultListModel<String> movieJListModel;
 
+    JWindow splashWindow;
+    ImageIcon splashIcon;
+
     public MainFrame() {
+
+        //splashInit();
 
         init();
 
@@ -62,6 +72,7 @@ public class MainFrame extends JFrame implements ActionListener {
         initMenu();
         initNewMovie();
         initDeleteMovie();
+        initMoveMovie();
 
         movieJListModel = new DefaultListModel();
         movieJList = new JList(movieJListModel);
@@ -69,12 +80,49 @@ public class MainFrame extends JFrame implements ActionListener {
         buttonPanel = new JPanel();
         buttonPanel.add(newMoviePanel);
         buttonPanel.add(deleteMoviePanel);
+        buttonPanel.add(moveUpDownPanel);
 
         this.add(movieJList);
         this.add(buttonPanel);
 
         this.setVisible(true);
 
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes buttons and labels for moving movie's position in ranking
+    private void initMoveMovie() {
+        upLabel = new JLabel("Move Up");
+        moveUpButton = new JButton("Up");
+        downLabel = new JLabel("Move Down");
+        moveDownButton = new JButton("Down");
+        moveUpDownPanel = new JPanel();
+
+        moveUpButton.addActionListener(this);
+        moveDownButton.addActionListener(this);
+
+        moveUpDownPanel.add(upLabel);
+        moveUpDownPanel.add(moveUpButton);
+        moveUpDownPanel.add(downLabel);
+        moveUpDownPanel.add(moveDownButton);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes splash window
+    private void splashInit() {
+        splashIcon = new ImageIcon();
+        // TODO: create art for splash screen
+        splashWindow = new JWindow();
+        splashWindow.getContentPane().add(new JLabel(splashIcon));
+        splashWindow.setBounds(0, 0, 500, 500);
+        splashWindow.setVisible(true);
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        splashWindow.setVisible(false);
+        splashWindow.dispose();
     }
 
     // MODIFIES: this
@@ -188,22 +236,38 @@ public class MainFrame extends JFrame implements ActionListener {
         } else if (e.getSource() == exitItem) {
             System.exit(0);
         } else if (e.getSource() == addButton) {
-            String movieTitle = newMovieTextField.getText();
-            newMovieTextField.setText("");
-
-            int movieRating = ratingBox.getSelectedIndex() + 1;
-
-            Movie movie = new Movie(movieTitle, movieRating);
-            movieList.addMovie(movie);
-            displayJList();
-
+            addMovieToRankings();
         } else if (e.getSource() == deleteButton) {
-            String selectedValue = movieJList.getSelectedValue();
-            String movieName = getMovieName(selectedValue);
-            Movie deletedMovie = movieList.findMovie(movieName);
-            movieList.removeMovie(deletedMovie);
+            Movie selectedMovie = getSelectedMovie();
+            movieList.removeMovie(selectedMovie);
+            displayJList();
+        } else if (e.getSource() == moveUpButton) {
+            Movie selectedMovie = getSelectedMovie();
+            movieList.moveMovieUpRanking(selectedMovie);
+            displayJList();
+        } else if (e.getSource() == moveDownButton) {
+            Movie selectedMovie = getSelectedMovie();
+            movieList.moveMovieDownRanking(selectedMovie);
             displayJList();
         }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: adds movie into movieList and displays onto movieJList
+    private void addMovieToRankings() {
+        String movieTitle = newMovieTextField.getText();
+        newMovieTextField.setText("");
+        int movieRating = ratingBox.getSelectedIndex() + 1;
+        Movie movie = new Movie(movieTitle, movieRating);
+        movieList.addMovie(movie);
+        displayJList();
+    }
+
+    // EFFECTS: finds movie in movieList from the selected value from movieJList
+    private Movie getSelectedMovie() {
+        String selectedValue = movieJList.getSelectedValue();
+        String movieName = getMovieName(selectedValue);
+        return movieList.findMovie(movieName);
     }
 
     // EFFECTS: substrings text to get movie's name

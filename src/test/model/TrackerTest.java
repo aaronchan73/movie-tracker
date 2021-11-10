@@ -97,11 +97,13 @@ public class TrackerTest {
 
     @Test
     void testDisplayMovies() {
+        movieList.addMovie(new Movie("Matrix", 1));
         ArrayList<String> movieNames = movieList.displayMovies();
 
         assertEquals("1. Titanic - 5 stars", movieNames.get(0));
         assertEquals("2. Naruto - 3 stars", movieNames.get(1));
         assertEquals("3. Pacific Rim - 4 stars", movieNames.get(2));
+        assertEquals("4. Matrix - 1 star", movieNames.get(3));
 
     }
     
