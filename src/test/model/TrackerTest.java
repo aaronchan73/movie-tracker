@@ -106,6 +106,15 @@ public class TrackerTest {
         assertEquals("4. Matrix - 1 star", movieNames.get(3));
 
     }
+
+    @Test
+    void testGetMovieList() {
+        ArrayList<Movie> testList = new ArrayList<>();
+        testList.add(movie1);
+        testList.add(movie2);
+        testList.add(movie3);
+        assertEquals(testList, movieList.getMovieList());
+    }
     
     @Test
     void testGetPosition() {
