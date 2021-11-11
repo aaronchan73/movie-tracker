@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
+// GUI for the Movie Tracker application
 public class MainFrame extends JFrame implements ActionListener {
 
     public static final int WIDTH = 500;
@@ -165,7 +166,6 @@ public class MainFrame extends JFrame implements ActionListener {
         addButton = new JButton("Submit");
         newMovieTextField = new JTextField();
         newMovieTextField.setPreferredSize(new Dimension(200, 50));
-        newMovieTextField.setText("Movie Title");
         addButton.addActionListener(this);
 
         ratingBox = new JComboBox(RATINGS);

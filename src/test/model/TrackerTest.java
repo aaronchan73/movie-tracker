@@ -119,6 +119,13 @@ public class TrackerTest {
     }
 
     @Test
+    void testGetPositionNoMovie() {
+        Movie movie4 = new Movie("Hereditary", 4);
+        assertEquals(null, movieList.findMovie(movie4.getName()));
+        assertEquals(4, movieList.getPosition(movie4));
+    }
+
+    @Test
     void testFindMovie() {
         assertEquals(movie1, movieList.findMovie("Titanic"));
         assertEquals(movie2, movieList.findMovie("Naruto"));
