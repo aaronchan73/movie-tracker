@@ -16,12 +16,14 @@ public class Tracker {
     // EFFECTS: adds movie at the end of the tracker
     public void addMovie(Movie m) {
         movieList.add(m);
+        EventLog.getInstance().logEvent(new Event(m.getName() + " was added to tracker."));
     }
 
     // MODIFIES: this
     // EFFECTS: removes specified movie from the tracker
     public void removeMovie(Movie m) {
         movieList.remove(m);
+        EventLog.getInstance().logEvent(new Event(m.getName() + " was removed from tracker."));
     }
 
     // EFFECTS: produces movie at a specified ranking
@@ -42,6 +44,8 @@ public class Tracker {
             movieList.set((currRank - 1), m);
             movieList.set(currRank, prevMovie);
         }
+
+        EventLog.getInstance().logEvent(new Event(m.getName() + " is moved up one ranking."));
     }
 
     // REQUIRES: there is more than one movie in the tracker
@@ -57,6 +61,8 @@ public class Tracker {
             movieList.set((currRank + 1), m);
             movieList.set(currRank, nextMovie);
         }
+
+        EventLog.getInstance().logEvent(new Event(m.getName() + " is moved down one ranking."));
     }
 
     // EFFECTS: returns the amount of movies in the tracker
@@ -117,5 +123,15 @@ public class Tracker {
         return null;
 
     }
+
+//    // EFFECTS: logs the method of saving rankings
+//    public void logSaveRankings() {
+//        EventLog.getInstance().logEvent(new Event("Tracker has been saved."));
+//    }
+//
+//    // EFFECTS: logs the methods of loading rankings
+//    public void logLoadRankings() {
+//        EventLog.getInstance().logEvent((new Event("Tracker has been loaded.")));
+//    }
 
 }

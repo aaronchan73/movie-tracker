@@ -1,5 +1,6 @@
 package ui;
 
+import model.EventLog;
 import model.Movie;
 import model.Tracker;
 import persistence.JsonReader;
@@ -52,6 +53,7 @@ public class MainFrame extends JFrame implements ActionListener {
 
     JList<String> movieJList;
     DefaultListModel<String> movieJListModel;
+    JScrollPane scrollPane;
 
     JWindow splashWindow;
     ImageIcon splashIcon;
@@ -77,13 +79,14 @@ public class MainFrame extends JFrame implements ActionListener {
 
         movieJListModel = new DefaultListModel();
         movieJList = new JList(movieJListModel);
+        scrollPane = new JScrollPane(movieJList);
 
         buttonPanel = new JPanel();
         buttonPanel.add(newMoviePanel);
         buttonPanel.add(deleteMoviePanel);
         buttonPanel.add(moveUpDownPanel);
 
-        this.add(movieJList);
+        this.add(scrollPane);
         this.add(buttonPanel);
 
         this.setVisible(true);
@@ -197,6 +200,7 @@ public class MainFrame extends JFrame implements ActionListener {
             movieList = reader.read();
             System.out.println(JSON_FILE + " was loaded successfully.");
             displayJList();
+            //movieList.logLoadRankings();
         } catch (IOException io) {
             System.out.println(JSON_FILE + " cannot be loaded.");
         }
@@ -219,6 +223,7 @@ public class MainFrame extends JFrame implements ActionListener {
             writer.write(movieList);
             writer.close();
             System.out.println(JSON_FILE + " was saved successfully.");
+            //movieList.logSaveRankings();
         } catch (FileNotFoundException e) {
             System.out.println(JSON_FILE + " cannot be saved.");
         }
@@ -233,6 +238,7 @@ public class MainFrame extends JFrame implements ActionListener {
         } else if (e.getSource() == saveItem) {
             saveRankings();
         } else if (e.getSource() == exitItem) {
+            printEvents();
             System.exit(0);
         } else if (e.getSource() == addButton) {
             addMovieToRankings();
@@ -248,6 +254,13 @@ public class MainFrame extends JFrame implements ActionListener {
             Movie selectedMovie = getSelectedMovie();
             movieList.moveMovieDownRanking(selectedMovie);
             displayJList();
+        }
+    }
+
+    // EFFECTS: prints all the logged events to console
+    private void printEvents() {
+        for (model.Event event : EventLog.getInstance()) {
+            System.out.println(event.toString());
         }
     }
 
