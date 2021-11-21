@@ -30,3 +30,5 @@ Sat Nov 20 16:19:39 PST 2021 \
 Terminator was removed from tracker.
 
 ## Phase 4: Task 3
+- Split up GUI components in MainFrame class into multiple classes
+- Separate methods and fields for each component into their respective classes

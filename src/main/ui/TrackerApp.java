@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-// Movie tracker application
+// Console movie tracker application (Phase 2)
 public class TrackerApp {
     private static final String JSON_FILE = "./data/tracker.json";
     private Scanner scanner;
