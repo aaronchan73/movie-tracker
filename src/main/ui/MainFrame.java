@@ -63,7 +63,6 @@ public class MainFrame extends JFrame implements ActionListener {
     public MainFrame() {
 
         splashInit();
-
         init();
         initMenu();
         initNewMovie();
