@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -63,23 +65,11 @@ public class MainFrame extends JFrame implements ActionListener {
         splashInit();
 
         init();
-
-        GridLayout layout = new GridLayout();
-        layout.setRows(2);
-        layout.setColumns(1);
-        this.setTitle("Movie Tracker");
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        this.setLayout(layout);
-        this.setSize(WIDTH, HEIGHT);
-
         initMenu();
         initNewMovie();
         initDeleteMovie();
         initMoveMovie();
-
-        movieJListModel = new DefaultListModel();
-        movieJList = new JList(movieJListModel);
-        scrollPane = new JScrollPane(movieJList);
+        initList();
 
         buttonPanel = new JPanel();
         buttonPanel.add(newMoviePanel);
@@ -91,6 +81,22 @@ public class MainFrame extends JFrame implements ActionListener {
 
         this.setVisible(true);
 
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printEvents();
+                System.exit(0);
+            }
+        });
+
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes JList and DefaultListModel with scroller
+    private void initList() {
+        movieJListModel = new DefaultListModel();
+        movieJList = new JList(movieJListModel);
+        scrollPane = new JScrollPane(movieJList);
     }
 
     // MODIFIES: this
@@ -136,6 +142,13 @@ public class MainFrame extends JFrame implements ActionListener {
         writer = new JsonWriter(JSON_FILE);
         ImageIcon logo = new ImageIcon("./data/logo.png");
         this.setIconImage(logo.getImage());
+        GridLayout layout = new GridLayout();
+        layout.setRows(2);
+        layout.setColumns(1);
+        this.setTitle("Movie Tracker");
+        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        this.setLayout(layout);
+        this.setSize(WIDTH, HEIGHT);
     }
 
     // MODIFIES: this
