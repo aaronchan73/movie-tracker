@@ -15,7 +15,7 @@ of what movies I like or disliked, as well as how a certain movie I have watched
 - As a user, I want to be given the option to save my ranking list to file
 - As a user, I want to be given the option to load my ranking list from file when I open my application
 
-## Phase 4: Task 2
+## Example Event Logs
 Sat Nov 20 16:19:12 PST 2021 \
 Shrek was added to tracker. \
 Sat Nov 20 16:19:17 PST 2021 \
@@ -29,6 +29,6 @@ Terminator is moved up one ranking. \
 Sat Nov 20 16:19:39 PST 2021 \
 Terminator was removed from tracker.
 
-## Phase 4: Task 3
+## Refactoring
 - Split up GUI components in MainFrame class into multiple classes
 - Separate methods and fields for each component into their respective classes
