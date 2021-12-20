@@ -69,11 +69,7 @@ public class MainFrame extends JFrame implements ActionListener {
         initDeleteMovie();
         initMoveMovie();
         initList();
-
-        buttonPanel = new JPanel();
-        buttonPanel.add(newMoviePanel);
-        buttonPanel.add(deleteMoviePanel);
-        buttonPanel.add(moveUpDownPanel);
+        initButtonPanel();
 
         this.add(scrollPane);
         this.add(buttonPanel);
@@ -88,6 +84,15 @@ public class MainFrame extends JFrame implements ActionListener {
             }
         });
 
+    }
+
+    // MODIFIES: this
+    // EFFECTS: initializes JPanel for buttonPanel and adds relevant panels
+    private void initButtonPanel() {
+        buttonPanel = new JPanel();
+        buttonPanel.add(newMoviePanel);
+        buttonPanel.add(deleteMoviePanel);
+        buttonPanel.add(moveUpDownPanel);
     }
 
     // MODIFIES: this
@@ -119,7 +124,7 @@ public class MainFrame extends JFrame implements ActionListener {
     // MODIFIES: this
     // EFFECTS: initializes splash window
     private void splashInit() {
-        splashIcon = new ImageIcon("./data/splash.png");
+        splashIcon = new ImageIcon("./data/splash2.png");
         splashWindow = new JWindow();
         splashWindow.getContentPane().add(new JLabel(splashIcon));
         splashWindow.setBounds(0, 0, 500, 400);
