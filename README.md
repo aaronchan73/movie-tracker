@@ -28,7 +28,3 @@ Sat Nov 20 16:19:37 PST 2021 \
 Terminator is moved up one ranking. \
 Sat Nov 20 16:19:39 PST 2021 \
 Terminator was removed from tracker.
-
-## Refactoring
-- Split up GUI components in MainFrame class into multiple classes
-- Separate methods and fields for each component into their respective classes
